@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject[] PageList;
     [SerializeField] private Button[] paginationButtonGrp;
     [SerializeField] private Button Infoback_button;
+    [SerializeField]
+    private TMP_Text[] SymbolsText;
 
 
     [Header("Settings Popup")]
@@ -61,6 +63,12 @@ public class UIManager : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioController audioController;
+
+    [SerializeField]
+    private Button GameExit_Button;
+
+    [SerializeField]
+    private SlotBehaviour slotManager;
 
 
     private void Start()
@@ -130,16 +138,49 @@ public class UIManager : MonoBehaviour
         if (GambleExit_button) GambleExit_button.onClick.RemoveAllListeners();
         if (GambleExit_button) GambleExit_button.onClick.AddListener(delegate { ClosePopup(Gamble_game); });
 
-
-
-        //if (SoundButton) SoundButton.onClick.RemoveAllListeners();
-        //if (SoundButton) SoundButton.onClick.AddListener(ToggleSound);
-
-
-
+        if (GameExit_Button) GameExit_Button.onClick.RemoveAllListeners();
+        if (GameExit_Button) GameExit_Button.onClick.AddListener(CallOnExitFunction);
 
     }
 
+    private void CallOnExitFunction()
+    {
+        slotManager.CallCloseSocket();
+        Application.ExternalCall("window.parent.postMessage", "onExit", "*");
+    }
+
+    internal void InitialiseUIData(string SupportUrl, string AbtImgUrl, string TermsUrl, string PrivacyUrl, Paylines symbolsText)
+    {
+        PopulateSymbolsPayout(symbolsText);
+    }
+
+    private void PopulateSymbolsPayout(Paylines paylines)
+    {
+        for (int i = 0; i < paylines.symbols.Count; i++)
+        {
+            if (i < SymbolsText.Length)
+            {
+                string text = null;
+                if (paylines.symbols[i].multiplier._5x != 0)
+                {
+                    text += "<color=yellow>5x</color> - " + paylines.symbols[i].multiplier._5x;
+                }
+                if (paylines.symbols[i].multiplier._4x != 0)
+                {
+                    text += "\n<color=yellow>4x</color> - " + paylines.symbols[i].multiplier._4x;
+                }
+                if (paylines.symbols[i].multiplier._3x != 0)
+                {
+                    text += "\n<color=yellow>3x</color> - " + paylines.symbols[i].multiplier._3x;
+                }
+                if (paylines.symbols[i].multiplier._2x != 0)
+                {
+                    text += "\n<color=yellow>2x</color> - " + paylines.symbols[i].multiplier._2x;
+                }
+                if (SymbolsText[i]) SymbolsText[i].text = text;
+            }
+        }
+    }
 
     private void OpenPopup(GameObject Popup)
     {
