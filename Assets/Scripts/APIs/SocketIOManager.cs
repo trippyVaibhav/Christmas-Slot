@@ -21,6 +21,7 @@ public class SocketIOManager : MonoBehaviour
     internal UIData initUIData = null;
     internal GameData resultData = null;
     internal PlayerData playerdata = null;
+    internal GambleResults gambleData = null;
     [SerializeField]
     internal List<string> bonusdata = null;
     WebSocket currentSocket = null;
@@ -48,7 +49,7 @@ public class SocketIOManager : MonoBehaviour
 
     private void OpenWebsocket()
     {
-        var webSocket = new WebSocket(new Uri("wss://qwc82cmb-3035.inc1.devtunnels.ms/"));
+        var webSocket = new WebSocket(new Uri("wss://qwc82cmb-3036.inc1.devtunnels.ms/"));
         webSocket.OnOpen += OnWebSocketOpen;
         webSocket.OnMessage += OnMessageReceived;
         webSocket.OnError += OnWebSocketError;
@@ -112,6 +113,14 @@ public class SocketIOManager : MonoBehaviour
                     isResultdone = true;
                     break;
                 }
+            case "GambleResult":
+                {
+                    Debug.Log(jsonObject);
+                    gambleData = myData.message.GambleData;
+                    playerdata = myData.message.PlayerData;
+                    isResultdone = true;
+                    break;
+                }
         }
     }
 
@@ -145,6 +154,33 @@ public class SocketIOManager : MonoBehaviour
             isResultdone = false;
             SendDataWithNamespace("Spin", currBet, currentSocket);
         }
+    }
+
+    internal void OnGamble()
+    {
+        isResultdone = false;
+        GambleData message = new GambleData();
+        //message.Data = new GambleData();
+
+        message.collect = false;
+        message.id = "gamble";
+        string json = JsonUtility.ToJson(message);
+        Debug.Log(json);
+        if (currentSocket != null) currentSocket.Send(json);
+
+    }
+
+    internal void OnCollect()
+    {
+        isResultdone = false;
+
+        GambleData message = new GambleData();
+
+        message.collect = true;
+        message.id = "gamble";
+        string json = JsonUtility.ToJson(message);
+        Debug.Log(json);
+        if (currentSocket != null) currentSocket.Send(json);
     }
 
     private void SendDataWithNamespace(string namespaceName, double bet, WebSocket webSocket)
@@ -236,6 +272,15 @@ public class BetData
 }
 
 [Serializable]
+public class GambleData
+{
+    public bool collect;
+    public string id;
+
+}
+
+
+[Serializable]
 public class AuthData
 {
     public string GameID;
@@ -261,6 +306,14 @@ public class AbtLogo
 {
     public string logoSprite { get; set; }
     public string link { get; set; }
+}
+
+[Serializable]
+public class GambleResults
+{
+    //public double currentWining;
+    public double totalWinningAmount;
+
 }
 
 [Serializable]
@@ -290,6 +343,7 @@ public class Message
 {
     public GameData GameData { get; set; }
     public UIData UIData { get; set; }
+    public GambleResults GambleData { get; set; }
     public PlayerData PlayerData { get; set; }
     public List<string> BonusData { get; set; }
 }

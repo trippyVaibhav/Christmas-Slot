@@ -518,6 +518,11 @@ public class SlotBehaviour : MonoBehaviour
         }
     }
 
+    internal void updateBalance()
+    {
+        if (Balance_text) Balance_text.text = SocketManager.playerdata.Balance.ToString();
+    }
+
     internal void CheckBonusGame()
     {
         if (SocketManager.resultData.isBonus)

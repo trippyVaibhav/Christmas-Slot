@@ -56,10 +56,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button AddCoin_back_button;
     [SerializeField] private GameObject AddCoin_panel;
 
-    [Header("gamble game")]
-    [SerializeField] private Button Gamble_button;
-    [SerializeField] private Button GambleExit_button;
-    [SerializeField] private GameObject Gamble_game;
+    //[Header("gamble game")]
+    //[SerializeField] private Button Gamble_button;
+    //[SerializeField] private Button GambleExit_button;
+    //[SerializeField] private GameObject Gamble_game;
 
     [Header("Audio")]
     [SerializeField] private AudioController audioController;
@@ -132,11 +132,11 @@ public class UIManager : MonoBehaviour
         if (AddCoin_back_button) AddCoin_back_button.onClick.RemoveAllListeners();
         if (AddCoin_back_button) AddCoin_back_button.onClick.AddListener(delegate { ClosePopup(AddCoin_panel); });        
 
-        if (Gamble_button) Gamble_button.onClick.RemoveAllListeners();
-        if (Gamble_button) Gamble_button.onClick.AddListener(delegate { OpenPopup(Gamble_game); });
+        //if (Gamble_button) Gamble_button.onClick.RemoveAllListeners();
+        //if (Gamble_button) Gamble_button.onClick.AddListener(delegate { OpenPopup(Gamble_game); });
 
-        if (GambleExit_button) GambleExit_button.onClick.RemoveAllListeners();
-        if (GambleExit_button) GambleExit_button.onClick.AddListener(delegate { ClosePopup(Gamble_game); });
+        //if (GambleExit_button) GambleExit_button.onClick.RemoveAllListeners();
+        //if (GambleExit_button) GambleExit_button.onClick.AddListener(delegate { ClosePopup(Gamble_game); });
 
         if (GameExit_Button) GameExit_Button.onClick.RemoveAllListeners();
         if (GameExit_Button) GameExit_Button.onClick.AddListener(CallOnExitFunction);
