@@ -4053,8 +4053,8 @@ MonoBehaviour:
   AddCoin_back_button: {fileID: 1774511155}
   AddCoin_panel: {fileID: 1692530049}
   audioController: {fileID: 4327319551677706936}
-  GameExit_Button: {fileID: 0}
-  slotManager: {fileID: 0}
+  GameExit_Button: {fileID: 1482929057}
+  slotManager: {fileID: 2046803210}
 --- !u!1 &382307069
 GameObject:
   m_ObjectHideFlags: 0
