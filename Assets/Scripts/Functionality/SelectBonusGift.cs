@@ -8,9 +8,13 @@ public class SelectBonusGift : MonoBehaviour
     [SerializeField]
     private Button this_Button;
     [SerializeField]
-    private GameObject this_GameObject;
+    private Image this_GameObject;
     [SerializeField]
     private GameObject selected_GameObject;
+    [SerializeField]
+    private PlayTextAnimation text_AnimScript;
+    [SerializeField]
+    private BonusController _bonusManager;
 
     private void Start()
     {
@@ -20,7 +24,24 @@ public class SelectBonusGift : MonoBehaviour
 
     private void SelectGift()
     {
-        if (this_GameObject) this_GameObject.SetActive(false);
+        if (_bonusManager) _bonusManager.enableRayCastPanel(true);
+        int value = 0;
+        value = _bonusManager.GetValue();
+        if(value == -1)
+        {
+            if (text_AnimScript) text_AnimScript.SetText("No Bonus");
+        }
+        else
+        {
+            if (text_AnimScript) text_AnimScript.SetText("+" + value.ToString());
+        }
+        if (this_GameObject) this_GameObject.enabled = false;
         if (selected_GameObject) selected_GameObject.SetActive(true);
+    }
+
+    internal void ResetGift()
+    {
+        if (selected_GameObject) selected_GameObject.SetActive(false);
+        if (this_GameObject) this_GameObject.enabled = true;
     }
 }

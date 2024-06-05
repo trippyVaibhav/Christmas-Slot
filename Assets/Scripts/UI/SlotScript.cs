@@ -10,18 +10,17 @@ public class SlotScript : MonoBehaviour
 
     internal void SetBg(Sprite MySprite)
     {
-        //if (MyBG) MyBG.SetActive(true);
-        if (MyImg) {
+        if (MyImg)
+        {
             MyImg.sprite = MySprite;
             MyImg.gameObject.SetActive(true);
-
         } 
     }
 
     internal void ResetBG()
     {
-        
-        if (MyImg) {
+        if (MyImg)
+        {
             MyImg.gameObject.SetActive(false);
         }
     }
